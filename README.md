@@ -42,8 +42,8 @@ Here are some of my projects:
 
 ## 📫 Contact Me
 - GitHub: https://github.com/Yohoo1111
-- Email: your.email@example.com
-- LinkedIn: https://linkedin.com/in/yourusername
+- Email: rcapua23-0144@gmail.com
+- LinkedIn: https://linkedin.com/in/RenzCapua
 
 ---
 
