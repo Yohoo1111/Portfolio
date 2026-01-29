@@ -42,7 +42,7 @@ Here are some of my projects:
 
 ## 📫 Contact Me
 - GitHub: https://github.com/Yohoo1111
-- Email: rcapua23-0144@gmail.com
+- Email: rcapua23-0144@cca.edu.ph
 - LinkedIn: https://linkedin.com/in/RenzCapua
 
 ---
