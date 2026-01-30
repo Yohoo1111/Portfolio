@@ -19,7 +19,6 @@
       line-height: 1.6;
     }
 
-    /* ===== NAVBAR ===== */
     nav {
       background: #1f1f1f;
       padding: 15px 40px;
@@ -44,7 +43,6 @@
       font-size: 14px;
     }
 
-    /* ===== HERO ===== */
     .hero {
       background: #a89072;
       text-align: center;
@@ -60,7 +58,6 @@
       font-size: 14px;
     }
 
-    /* ===== SECTIONS ===== */
     section {
       padding: 70px 10%;
     }
@@ -71,7 +68,6 @@
       font-size: 24px;
     }
 
-    /* ===== ABOUT ===== */
     .about-boxes {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -85,7 +81,6 @@
       font-size: 14px;
     }
 
-    /* ===== SKILLS ===== */
     .skills {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -111,7 +106,6 @@
       background: #4caf50;
     }
 
-    /* ===== PROJECTS ===== */
     .projects {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -128,7 +122,6 @@
       margin-bottom: 10px;
     }
 
-    /* ===== CONTACT ===== */
     .contact-form {
       max-width: 600px;
       margin: auto;
@@ -166,7 +159,6 @@
 </head>
 <body>
 
-  <!-- NAVBAR -->
   <nav>
     <h2>Portfolio</h2>
     <ul>
@@ -178,13 +170,11 @@
     </ul>
   </nav>
 
-  <!-- HERO -->
   <section class="hero" id="home">
     <h1>Hello there! 👋<br>I'm Renz E. Capua</h1>
     <p>Happy to see you here!</p>
   </section>
 
-  <!-- ABOUT -->
   <section id="about">
     <h2 class="section-title">☕ About Me</h2>
 
@@ -203,7 +193,6 @@
     </div>
   </section>
 
-  <!-- SKILLS -->
   <section id="skills">
     <h2 class="section-title">🛠 Design Skills</h2>
 
@@ -226,7 +215,6 @@
     </div>
   </section>
 
-  <!-- PROJECTS -->
   <section id="projects">
     <h2 class="section-title">📁 Projects</h2>
 
@@ -248,7 +236,6 @@
     </div>
   </section>
 
-  <!-- CONTACT -->
   <section id="contact">
     <h2 class="section-title">📬 Contact Me</h2>
 
