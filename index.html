@@ -362,7 +362,6 @@
       <div class="about-stats">
         <div><div class="stat-number">2+</div><div class="stat-label">Years Experience</div></div>
         <div><div class="stat-number">3</div><div class="stat-label">Happy Clients</div></div>
-        <div><div class="stat-number">0</div><div class="stat-label">Design Awards</div></div>
       </div>
     </div>
   </div>
@@ -426,7 +425,7 @@
   <div class="label">— Selected Work</div>
   <div class="title">Projects</div>
   <div class="projects-grid">
-    <a href="Project_page.html">
+    <a href="Midterm_page.html">
     <div class="project-card reveal" data-project="0">
       <div class="num">001</div>
       <div class="click-hint">↩ Click to view</div>
@@ -470,9 +469,7 @@ A collection of creative design tasks showcasing visual communication, typograph
   
 </footer>
 
-<!-- ══════════════════════════════════════
-     PROJECT MODAL
-══════════════════════════════════════ -->
+
 <div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true">
   <div class="modal" id="modal">
     <button class="modal-close" id="modalClose" aria-label="Close modal">✕ Close</button>
@@ -487,9 +484,7 @@ A collection of creative design tasks showcasing visual communication, typograph
 </div>
 
 <script>
-  /* ─────────────────────────────────────
-     CUSTOM CURSOR
-  ───────────────────────────────────── */
+
   const cur  = document.getElementById('cur');
   const ring = document.getElementById('ring');
   let mx = 0, my = 0, rx = 0, ry = 0;
@@ -507,9 +502,7 @@ A collection of creative design tasks showcasing visual communication, typograph
     requestAnimationFrame(tick);
   })();
 
-  /* ─────────────────────────────────────
-     SCROLL REVEAL
-  ───────────────────────────────────── */
+ 
   const revealObs = new IntersectionObserver(entries =>
     entries.forEach((e, i) => {
       if (e.isIntersecting) {
@@ -519,9 +512,7 @@ A collection of creative design tasks showcasing visual communication, typograph
   );
   document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
 
-  /* ─────────────────────────────────────
-     ANIMATED SKILL BARS
-  ───────────────────────────────────── */
+
   const barObs = new IntersectionObserver(entries =>
     entries.forEach(e => {
       if (e.isIntersecting) {
@@ -535,16 +526,7 @@ A collection of creative design tasks showcasing visual communication, typograph
   const barsEl = document.getElementById('bars');
   if (barsEl) barObs.observe(barsEl);
 
-  /* ─────────────────────────────────────
-     PROJECT DATA
-     Edit this array to update your popup
-     content for each project card.
-  ───────────────────────────────────── */
-
-
-  /* ─────────────────────────────────────
-     MODAL OPEN / CLOSE LOGIC
-  ───────────────────────────────────── */
+ 
   const overlay     = document.getElementById('modalOverlay');
   const closeBtn    = document.getElementById('modalClose');
   const modalNum    = document.getElementById('modalNum');
