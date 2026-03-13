@@ -311,6 +311,23 @@
     footer { flex-direction: column; gap: 1.5rem; }
     .modal-body { padding: 2rem 1.6rem 2.2rem; }
   }
+  .task-num {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem; /* space between Task 01 and the link */
+}
+
+.task-link {
+  font-family: var(--mono);
+  font-size: 0.55rem;
+  color: var(--acc);
+  text-decoration: underline;
+  transition: color 0.2s;
+}
+
+.task-link:hover {
+  color: var(--acc2);
+}
 </style>
 </head>
 <body>
@@ -373,7 +390,7 @@
         <div class="task-image">
           <img src="yey.png" alt="Data Preparation and Cleaning">
         </div>
-        <div class="task-num">Task 01</div>
+        <div class="task-num">Task 01 <a href="https://1drv.ms/x/c/9aeb5207de268c35/IQAdaXusSef1Tah5eaLwxrNmAd07se1TMzrPDRy40Fi35-k?e=yDt8g7" target="_blank" class="task-link">Link Data</a></div>
         <div class="task-title">Data Preparation and Cleaning</div>
         <p class="task-desc">Data preparation and data cleaning involve organizing datasets and removing errors, duplicates, or missing values to ensure accurate and reliable analysis.</p>
         <div class="task-footer">
@@ -390,7 +407,7 @@
         <div class="task-image">
           <img src="bike.png" alt="Photo Manipulation">
         </div>
-        <div class="task-num">Task 02</div>
+        <div class="task-num">Task 02<a href="https://1drv.ms/x/c/9aeb5207de268c35/IQCblFY1Lx6BRpcnCjdNfCgXAXYVr21EVZ2T4Y9DyyNOnA4?e=VWGbRO" target="_blank" class="task-link">Link Data</a></div>
         <div class="task-title">Pivot Tables and Charts</div>
         <p class="task-desc">Organized and analyzed data using pivot tables and charts to highlight important trends and insights.</p>
         <div class="task-footer">
@@ -407,7 +424,7 @@
         <div class="task-image">
           <img src="cola.png" alt="Logo Design">
         </div>
-        <div class="task-num">Practice 03</div>
+        <div class="task-num">Practice 03 <a href="https://1drv.ms/x/c/9aeb5207de268c35/IQC3i3qEB8LhQLz61iFSxXJoAVUtljOUBjuZTHhtr49WFY4?e=ep2tyq" target="_blank" class="task-link">Link Data</a></div>
         <div class="task-title">Creating Dashboards in Excel</div>
         <p class="task-desc">Dashboards in Excel visualize and summarize data for quick insights and decisions.</p>
         <div class="task-footer">
@@ -424,7 +441,7 @@
         <div class="task-image">
           <img src="WEW.png" alt="Magazine Layout">
         </div>
-        <div class="task-num">Task 03</div>
+        <div class="task-num">Task 03 <a href="https://1drv.ms/x/c/9aeb5207de268c35/IQCnd1C-LQN5QLbBaIHC2zDFAZj9NbBA7YvAMEdvOKNnjGE?e=tWuow1" target="_blank" class="task-link">Link Data</a></div>
         <div class="task-title">Normalization using Power Query</div>
         <p class="task-desc">Normalization using Power Query refers to the process of structuring and cleaning raw data in Excel</p>
         <div class="task-footer">
@@ -472,9 +489,6 @@
 </div>
 
 <script>
-  /* ─────────────────────────────────────
-     CUSTOM CURSOR
-  ───────────────────────────────────── */
   const cur  = document.getElementById('cur');
   const ring = document.getElementById('ring');
   let mx = 0, my = 0, rx = 0, ry = 0;
@@ -492,9 +506,7 @@
     requestAnimationFrame(tick);
   })();
 
-  /* ─────────────────────────────────────
-     SCROLL REVEAL
-  ───────────────────────────────────── */
+
   const revealObs = new IntersectionObserver(entries =>
     entries.forEach((e, i) => {
       if (e.isIntersecting) {
@@ -504,11 +516,7 @@
   );
   document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
 
-  /* ─────────────────────────────────────
-     TASK DATA
-     Edit this array to update your task
-     details in the modal popup.
-  ───────────────────────────────────── */
+ 
   const tasks = [
     {
       num: 'Task 01',
@@ -525,6 +533,7 @@
       image: 'bike.png',
       desc: 'Created pivot tables and charts to summarize and visualize datasets, highlighting key patterns, trends, and insights for effective analysis.',
       detail: '<strong>Objective:</strong> Learn how to use pivot tables and charts to organize, analyze, and interpret data quickly and efficiently.<br><br><strong>Process:</strong> Started by selecting relevant datasets and identifying key variables. Built pivot tables to aggregate data, then created charts to visualize trends and comparisons. Focused on presenting insights clearly and accurately.<br><br><strong>Tools:</strong> Microsoft Excel · Google Sheets <strong>Time Spent:</strong> 6 hours'
+   
     },
     {
       num: 'Practice 03',
@@ -546,9 +555,7 @@
     
   ];
 
-  /* ─────────────────────────────────────
-     MODAL OPEN / CLOSE LOGIC
-  ───────────────────────────────────── */
+ 
   const overlay     = document.getElementById('modalOverlay');
   const closeBtn    = document.getElementById('modalClose');
   const modalNum    = document.getElementById('modalNum');
