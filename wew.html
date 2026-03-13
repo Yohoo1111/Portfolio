@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Renz Capua — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@600&family=Space+Grotesk:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:   #fdf6e3;
+    --ink:  #1a1208;
+    --acc:  #c0392b;
+    --acc2: #8e44ad;
+    --sub:  #5a4a3a;
+    --dim:  rgba(90,74,58,0.18);
+    --mono: 'Share Tech Mono', monospace;
+    --head: 'Rajdhani', sans-serif;
+    --body: 'Space Grotesk', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Paper texture overlay */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    pointer-events: none; z-index: 9000;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    opacity: 0.5;
+  }
+
+  /* ── Custom cursor ── */
+  .cursor, .cursor-ring {
+    position: fixed; top: 0; left: 0;
+    pointer-events: none; border-radius: 50%;
+    transition: width .2s, height .2s, opacity .2s;
+  }
+  .cursor { width: 7px; height: 7px; background: var(--acc); z-index: 9999; }
+  .cursor-ring {
+    width: 28px; height: 28px;
+    border: 1px solid var(--acc);
+    z-index: 9998; opacity: 0.45;
+  }
+  body:has(a:hover) .cursor-ring,
+  body:has(button:hover) .cursor-ring,
+  body:has(.project-card:hover) .cursor-ring {
+    width: 54px; height: 54px; opacity: 0.75;
+  }
+
+  /* ── Navigation ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+    padding: 1.2rem 3.5rem;
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(253,246,227,0.92);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--dim);
+  }
+  .nav-logo {
+    font-family: var(--mono); font-size: 0.85rem;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--acc); text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 2.2rem; list-style: none; }
+  .nav-links a {
+    font-family: var(--mono); font-size: 0.64rem;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--sub); text-decoration: none;
+    transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--acc); }
+
+  /* ── Section base ── */
+  section { padding: 7rem 3.5rem; position: relative; z-index: 1; }
+  .label {
+    font-family: var(--mono); font-size: 0.6rem;
+    letter-spacing: 0.26em; text-transform: uppercase;
+    color: var(--acc); margin-bottom: 0.8rem;
+  }
+  .title {
+    font-family: var(--head); font-weight: 600;
+    font-size: clamp(2.4rem, 5vw, 4.5rem);
+    line-height: 0.95; letter-spacing: 0.02em;
+    margin-bottom: 3.5rem;
+  }
+
+  /* ── About section ── */
+  #about { border-top: 1px solid var(--dim); }
+  .about-grid {
+    display: grid; grid-template-columns: 1fr 1.4fr;
+    gap: 5rem; align-items: center;
+  }
+  .about-portrait {
+    aspect-ratio: 3/4; background: #ede8d8;
+    border: 1px solid var(--dim);
+    overflow: hidden; position: relative;
+  }
+  .about-portrait img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .about-portrait::after {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, var(--acc2), var(--acc));
+  }
+  .about-text p { font-size: 0.95rem; font-weight: 300; color: var(--sub); margin-bottom: 1.3rem; }
+  .about-text p strong { color: var(--ink); font-weight: 400; }
+  .about-stats {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1.5rem; margin-top: 2.5rem; padding-top: 2rem;
+    border-top: 1px solid var(--dim);
+  }
+  .stat-number {
+    font-family: var(--head); font-weight: 600;
+    font-size: 2.8rem; line-height: 1; color: var(--acc);
+  }
+  .about-stats > div:nth-child(even) .stat-number { color: var(--acc2); }
+  .stat-label {
+    font-family: var(--mono); font-size: 0.58rem;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--sub); margin-top: 0.3rem;
+  }
+
+  /* ── Skills section ── */
+  #skills { border-top: 1px solid var(--dim); background: rgba(180,160,130,0.06); }
+  .skills-layout { display: grid; grid-template-columns: 220px 1fr; gap: 5rem; }
+  .skills-intro { font-size: 0.92rem; font-weight: 300; color: var(--sub); line-height: 1.85; }
+  .skills-categories { display: flex; flex-direction: column; gap: 2.5rem; }
+  .skill-category h3 {
+    font-family: var(--mono); font-size: 0.6rem;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--sub); margin-bottom: 1rem;
+    padding-bottom: 0.6rem; border-bottom: 1px solid var(--dim);
+  }
+  .pill-list { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+  .pill {
+    padding: 0.28rem 0.75rem; border: 1px solid var(--dim);
+    font-family: var(--mono); font-size: 0.63rem;
+    letter-spacing: 0.05em; color: var(--sub);
+    transition: all .2s; cursor: none;
+  }
+  .pill:hover { border-color: var(--acc); color: var(--acc); }
+
+  /* Animated skill bars */
+  .bar-list { display: flex; flex-direction: column; gap: 1.1rem; margin-top: 1rem; }
+  .bar-header {
+    display: flex; justify-content: space-between;
+    font-family: var(--mono); font-size: 0.62rem;
+    color: var(--sub); margin-bottom: 0.4rem;
+  }
+  .bar-track { height: 1px; background: var(--dim); position: relative; }
+  .bar-fill {
+    position: absolute; left: 0; top: 0; bottom: 0;
+    background: linear-gradient(90deg, var(--acc2), var(--acc));
+    width: 0; transition: width 1.3s cubic-bezier(.4,0,.2,1);
+  }
+  .bar-fill::after {
+    content: ''; position: absolute; right: -3px; top: -3px;
+    width: 7px; height: 7px; background: var(--acc); border-radius: 50%;
+  }
+  .bar-fill.go { width: var(--w); }
+
+  /* ── Projects section ── */
+  #projects { border-top: 1px solid var(--dim); }
+  .projects-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    border: 1px solid var(--dim);
+  }
+  .project-card {
+    padding: 2.2rem;
+    border-right: 1px solid var(--dim); border-bottom: 1px solid var(--dim);
+    position: relative; overflow: hidden;
+    cursor: none; transition: background .3s;
+  }
+  .project-card:nth-child(3n)        { border-right: none; }
+  .project-card:nth-last-child(-n+3) { border-bottom: none; }
+  .project-card:hover                { background: rgba(192,57,43,0.05); }
+  .project-card::after {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, var(--acc2), var(--acc));
+    transform: scaleX(0); transform-origin: left; transition: transform .4s;
+  }
+  .project-card:hover::after         { transform: scaleX(1); }
+  .project-card:hover .project-title { color: var(--acc); }
+  .project-card:hover .arrow         { transform: translate(3px,-3px); color: var(--acc); }
+  .project-card:hover .click-hint    { opacity: 1; }
+
+  /* Small "click to view" hint that fades in on hover */
+  .click-hint {
+    font-family: var(--mono); font-size: 0.54rem;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--acc); opacity: 0;
+    transition: opacity .25s; margin-bottom: 0.6rem;
+  }
+  .num {
+    font-family: var(--mono); font-size: 0.58rem;
+    color: var(--sub); letter-spacing: 0.12em;
+    margin-bottom: 2rem; opacity: .6;
+  }
+  .project-title {
+    font-family: var(--head); font-weight: 600;
+    font-size: 1.5rem; line-height: 1.05;
+    margin-bottom: 0.8rem; transition: color .3s;
+  }
+  .project-desc {
+    font-size: 0.85rem; font-weight: 300;
+    color: var(--sub); line-height: 1.75; margin-bottom: 1.8rem;
+  }
+  .project-footer { display: flex; justify-content: space-between; align-items: flex-end; }
+  .tags { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+  .tag {
+    font-family: var(--mono); font-size: 0.55rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 0.15rem 0.45rem; border: 1px solid var(--dim); color: var(--sub);
+  }
+  .arrow { font-size: 1.1rem; color: var(--sub); transition: all .3s; }
+
+  /* ══════════════════════════════════════
+     MODAL POPUP
+  ══════════════════════════════════════ */
+  .modal-overlay {
+    position: fixed; inset: 0; z-index: 800;
+    background: rgba(26,18,8,0.72);
+    backdrop-filter: blur(6px);
+    display: flex; align-items: center; justify-content: center;
+    padding: 2rem;
+    opacity: 0; pointer-events: none;
+    transition: opacity .35s ease;
+  }
+  .modal-overlay.open {
+    opacity: 1; pointer-events: all;
+  }
+  .modal {
+    background: var(--bg); border: 1px solid var(--dim);
+    max-width: 680px; width: 100%;
+    position: relative; overflow: hidden;
+    transform: translateY(28px) scale(0.97);
+    transition: transform .38s cubic-bezier(.22,1,.36,1);
+    max-height: 90vh; overflow-y: auto;
+  }
+  .modal-overlay.open .modal { transform: translateY(0) scale(1); }
+
+  /* Gradient bar at top of modal */
+  .modal::before {
+    content: ''; display: block; height: 3px;
+    background: linear-gradient(90deg, var(--acc2), var(--acc));
+  }
+
+  .modal-body { padding: 2.8rem 3rem 3rem; }
+  .modal-num {
+    font-family: var(--mono); font-size: 0.58rem;
+    letter-spacing: 0.16em; color: var(--sub);
+    opacity: .55; margin-bottom: 0.6rem;
+  }
+  .modal-title {
+    font-family: var(--head); font-weight: 600;
+    font-size: clamp(1.9rem, 4vw, 2.9rem); line-height: 0.97;
+    color: var(--ink); margin-bottom: 1.4rem;
+  }
+  .modal-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 2rem; }
+  .modal-tag {
+    font-family: var(--mono); font-size: 0.57rem;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 0.2rem 0.6rem; border: 1px solid var(--acc); color: var(--acc);
+  }
+  .modal-desc {
+    font-size: 0.95rem; font-weight: 300;
+    color: var(--sub); line-height: 1.85; margin-bottom: 1.5rem;
+  }
+  .modal-detail {
+    font-size: 0.88rem; font-weight: 300;
+    color: var(--sub); line-height: 1.8;
+    padding-top: 1.5rem; border-top: 1px solid var(--dim);
+  }
+  .modal-detail strong { color: var(--ink); font-weight: 400; }
+
+  /* Close button */
+  .modal-close {
+    position: absolute; top: 1.4rem; right: 1.4rem;
+    font-family: var(--mono); font-size: 0.68rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--sub); background: none;
+    border: 1px solid var(--dim);
+    padding: 0.3rem 0.7rem; cursor: none;
+    transition: border-color .2s, color .2s;
+  }
+  .modal-close:hover { border-color: var(--acc); color: var(--acc); }
+
+  /* ── Footer ── */
+  footer {
+    padding: 3rem 3.5rem; border-top: 1px solid var(--dim);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-name {
+    font-family: var(--mono); font-size: 0.85rem;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--acc);
+  }
+  .footer-links { display: flex; gap: 1.8rem; list-style: none; margin-top: 0.4rem; }
+  .footer-links a {
+    font-family: var(--mono); font-size: 0.6rem;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--sub); text-decoration: none; transition: color .2s;
+  }
+  .footer-links a:hover { color: var(--acc); }
+  .footer-email { font-family: var(--mono); font-size: 0.62rem; color: var(--acc); }
+
+  /* ── Scroll reveal animation ── */
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* ── Responsive breakpoints ── */
+  @media (max-width: 860px) {
+    nav, section, footer { padding-left: 1.4rem; padding-right: 1.4rem; }
+    .about-grid, .skills-layout { grid-template-columns: 1fr; gap: 2.5rem; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .project-card { border-right: none !important; }
+    .project-card:nth-last-child(-n+3) { border-bottom: 1px solid var(--dim) !important; }
+    .project-card:last-child { border-bottom: none !important; }
+    footer { flex-direction: column; gap: 1.5rem; }
+    .modal-body { padding: 2rem 1.6rem 2.2rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cur"></div>
+<div class="cursor-ring" id="ring"></div>
+
+<!-- ── Navigation ── -->
+<nav>
+  <a href="#about" class="nav-logo">Renz Capua</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+  </ul>
+</nav>
+
+<!-- ── About ── -->
+<section id="about" style="padding-top:9rem">
+  <div class="label">— About Me</div>
+  <div class="title">Renz<br>Capua</div>
+  <div class="about-grid reveal">
+    <div class="about-portrait">
+      <img src="picture.jpg" alt="Renz Capua">
+    </div>
+    <div class="about-text">
+      <p>I'm a <strong>3rd-year college student in graphic design</strong> with a passion for creating work that balances aesthetics and purpose.</p>
+      <p>With experience in visual design, typography, and digital media, I bring a <strong>holistic perspective</strong> to every project.</p>
+      <p>When I'm not designing, I'm likely studying typography, experimenting with generative art, or obsessing over <strong>the perfect grid system</strong>.</p>
+      <div class="about-stats">
+        <div><div class="stat-number">2+</div><div class="stat-label">Years Experience</div></div>
+        <div><div class="stat-number">3</div><div class="stat-label">Happy Clients</div></div>
+        <div><div class="stat-number">0</div><div class="stat-label">Design Awards</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Skills ── -->
+<section id="skills">
+  <div class="label">— Design Skills</div>
+  <div class="title">Tools &amp;<br>Expertise</div>
+  <div class="skills-layout reveal">
+    <p class="skills-intro">A curated set of skills developed through studies and personal projects in graphic and digital design, with a focus on photo editing and visual communication.</p>
+    <div class="skills-categories">
+      <div class="skill-category">
+        <h3>Design</h3>
+        <div class="pill-list">
+          <span class="pill">Visual Design</span>
+          <span class="pill">Typography</span>
+          <span class="pill">Brand Identity</span>
+          <span class="pill">Layout &amp; Grids</span>
+          <span class="pill">Color Theory</span>
+          <span class="pill">Prototyping</span>
+        </div>
+      </div>
+      <div class="skill-category">
+        <h3>Tools</h3>
+        <div class="pill-list">
+          <span class="pill">Adobe Photoshop</span>
+          <span class="pill">Adobe Illustrator</span>
+          <span class="pill">Figma</span>
+          <span class="pill">Canva</span>
+          <span class="pill">Lightroom</span>
+        </div>
+      </div>
+      <div class="skill-category">
+        <h3>Photo &amp; Digital</h3>
+        <div class="bar-list" id="bars">
+          <div>
+            <div class="bar-header"><span>Photo Editing &amp; Retouching</span><span>80%</span></div>
+            <div class="bar-track"><div class="bar-fill" style="--w:80%"></div></div>
+          </div>
+          <div>
+            <div class="bar-header"><span>Color Correction &amp; Theory</span><span>32%</span></div>
+            <div class="bar-track"><div class="bar-fill" style="--w:32%"></div></div>
+          </div>
+          <div>
+            <div class="bar-header"><span>Graphic Layout &amp; Composition</span><span>60%</span></div>
+            <div class="bar-track"><div class="bar-fill" style="--w:60%"></div></div>
+          </div>
+          <div>
+            <div class="bar-header"><span>Basic UI / Web Layout</span><span>65%</span></div>
+            <div class="bar-track"><div class="bar-fill" style="--w:65%"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Projects ── -->
+<section id="projects">
+  <div class="label">— Selected Work</div>
+  <div class="title">Projects</div>
+  <div class="projects-grid">
+
+    <div class="project-card reveal" data-project="0">
+      <div class="num">001</div>
+      <div class="click-hint">↩ Click to view</div>
+      <div class="project-title">Brand Identity System</div>
+      <p class="project-desc">A comprehensive visual identity for a sustainable architecture firm — logotype, color system, typography, and brand guidelines.</p>
+      <div class="project-footer">
+        <div class="tags"><span class="tag">Branding</span><span class="tag">Identity</span></div>
+        <span class="arrow">↗</span>
+      </div>
+    </div>
+
+    <div class="project-card reveal" data-project="1">
+      <div class="num">002</div>
+      <div class="click-hint">↩ Click to view</div>
+      <div class="project-title">E-Commerce Redesign</div>
+      <p class="project-desc">A full UX overhaul of a fashion retailer's digital storefront, increasing conversion by 34% through better hierarchy and flow.</p>
+      <div class="project-footer">
+        <div class="tags"><span class="tag">UX</span><span class="tag">E-Commerce</span></div>
+        <span class="arrow">↗</span>
+      </div>
+    </div>
+
+    <div class="project-card reveal" data-project="2">
+      <div class="num">003</div>
+      <div class="click-hint">↩ Click to view</div>
+      <div class="project-title">Design System</div>
+      <p class="project-desc">Built a scalable component library for a SaaS product team — 200+ components, thorough documentation, Figma tokens.</p>
+      <div class="project-footer">
+        <div class="tags"><span class="tag">Systems</span><span class="tag">Figma</span></div>
+        <span class="arrow">↗</span>
+      </div>
+    </div>
+
+    <div class="project-card reveal" data-project="3">
+      <div class="num">004</div>
+      <div class="click-hint">↩ Click to view</div>
+      <div class="project-title">Motion Campaign</div>
+      <p class="project-desc">An animated marketing campaign for a product launch — title sequences, social cutdowns, and interactive web banners.</p>
+      <div class="project-footer">
+        <div class="tags"><span class="tag">Motion</span><span class="tag">Campaign</span></div>
+        <span class="arrow">↗</span>
+      </div>
+    </div>
+
+    <div class="project-card reveal" data-project="4">
+      <div class="num">005</div>
+      <div class="click-hint">↩ Click to view</div>
+      <div class="project-title">Data Dashboard</div>
+      <p class="project-desc">A real-time analytics platform for a fintech startup. Complex data visualized with clarity, speed, and elegance.</p>
+      <div class="project-footer">
+        <div class="tags"><span class="tag">Data Viz</span><span class="tag">UI</span></div>
+        <span class="arrow">↗</span>
+      </div>
+    </div>
+
+    <div class="project-card reveal" data-project="5">
+      <div class="num">006</div>
+      <div class="click-hint">↩ Click to view</div>
+      <div class="project-title">Editorial Website</div>
+      <p class="project-desc">A beautifully typographic digital magazine experience — custom CMS, reading modes, and adaptive layout engine.</p>
+      <div class="project-footer">
+        <div class="tags"><span class="tag">Web</span><span class="tag">Editorial</span></div>
+        <span class="arrow">↗</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── Footer ── -->
+<footer>
+  <div>
+    <div class="footer-name">Contact</div>
+    <ul class="footer-links">
+      <li><a href="mailto:renzcapua123@gmail.com">renzcapua123@gmail.com</a></li>
+      <li><a href="https://www.facebook.com/renz.capua.5" target="_blank">Facebook</a></li>
+      <li><a href="https://www.instagram.com/rnz.zzzzzzzz/" target="_blank">Instagram</a></li>
+      <li><a>63+ 9942383722</a></li>
+    </ul>
+  </div>
+  
+</footer>
+
+<!-- ══════════════════════════════════════
+     PROJECT MODAL
+══════════════════════════════════════ -->
+<div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true">
+  <div class="modal" id="modal">
+    <button class="modal-close" id="modalClose" aria-label="Close modal">✕ Close</button>
+    <div class="modal-body">
+      <div class="modal-num"  id="modalNum"></div>
+      <div class="modal-title" id="modalTitle"></div>
+      <div class="modal-tags"  id="modalTags"></div>
+      <p   class="modal-desc"  id="modalDesc"></p>
+      <div class="modal-detail" id="modalDetail"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  /* ─────────────────────────────────────
+     CUSTOM CURSOR
+  ───────────────────────────────────── */
+  const cur  = document.getElementById('cur');
+  const ring = document.getElementById('ring');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX;
+    my = e.clientY;
+  });
+
+  (function tick() {
+    cur.style.transform  = `translate(${mx - 3.5}px, ${my - 3.5}px)`;
+    rx += (mx - rx) * .1;
+    ry += (my - ry) * .1;
+    ring.style.transform = `translate(${rx - 14}px, ${ry - 14}px)`;
+    requestAnimationFrame(tick);
+  })();
+
+  /* ─────────────────────────────────────
+     SCROLL REVEAL
+  ───────────────────────────────────── */
+  const revealObs = new IntersectionObserver(entries =>
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+      }
+    }), { threshold: .1 }
+  );
+  document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+  /* ─────────────────────────────────────
+     ANIMATED SKILL BARS
+  ───────────────────────────────────── */
+  const barObs = new IntersectionObserver(entries =>
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.querySelectorAll('.bar-fill').forEach((b, i) =>
+          setTimeout(() => b.classList.add('go'), 200 + i * 100)
+        );
+        barObs.unobserve(e.target);
+      }
+    }), { threshold: .3 }
+  );
+  const barsEl = document.getElementById('bars');
+  if (barsEl) barObs.observe(barsEl);
+
+  /* ─────────────────────────────────────
+     PROJECT DATA
+     Edit this array to update your popup
+     content for each project card.
+  ───────────────────────────────────── */
+  const projects = [
+    {
+      num: '001',
+      title: 'Brand Identity System',
+      tags: ['Branding', 'Identity', 'Logo Design'],
+      desc: 'A comprehensive visual identity for a sustainable architecture firm — logotype, color system, typography, and brand guidelines.',
+      detail: '<strong>What I did:</strong> Developed the full identity from scratch — wordmark, icon, color palette, and a 40-page brand guideline document. The design language draws from brutalist architecture and biophilic principles, balancing rigidity with warmth.<br><br><strong>Tools:</strong> Adobe Illustrator, Figma &nbsp;·&nbsp; <strong>Duration:</strong> 3 weeks'
+    },
+    {
+      num: '002',
+      title: 'E-Commerce Redesign',
+      tags: ['UX Design', 'E-Commerce', 'Prototyping'],
+      desc: "A full UX overhaul of a fashion retailer's digital storefront, increasing conversion by 34% through better hierarchy and flow.",
+      detail: '<strong>What I did:</strong> Audited the existing site, mapped user journeys, and rebuilt the information architecture. Redesigned the product listing, cart, and checkout flows with a mobile-first approach.<br><br><strong>Tools:</strong> Figma, Adobe XD &nbsp;·&nbsp; <strong>Duration:</strong> 4 weeks'
+    },
+    {
+      num: '003',
+      title: 'Design System',
+      tags: ['Systems Design', 'Figma', 'Documentation'],
+      desc: 'Built a scalable component library for a SaaS product team — 200+ components, thorough documentation, Figma tokens.',
+      detail: '<strong>What I did:</strong> Created a single source of truth for a growing product team. Defined tokens for color, spacing, and typography. Documented usage guidelines and accessibility standards for every component.<br><br><strong>Tools:</strong> Figma, Notion &nbsp;·&nbsp; <strong>Duration:</strong> 6 weeks'
+    },
+    {
+      num: '004',
+      title: 'Motion Campaign',
+      tags: ['Motion Design', 'Social Media', 'Campaign'],
+      desc: 'An animated marketing campaign for a product launch — title sequences, social cutdowns, and interactive web banners.',
+      detail: '<strong>What I did:</strong> Conceptualized the motion language and produced assets for launch day — hero video, 6 social formats, and HTML5 banners. The campaign reached 200K impressions in its first week.<br><br><strong>Tools:</strong> After Effects, Adobe Premiere &nbsp;·&nbsp; <strong>Duration:</strong> 2 weeks'
+    },
+    {
+      num: '005',
+      title: 'Data Dashboard',
+      tags: ['Data Visualization', 'UI Design', 'Fintech'],
+      desc: 'A real-time analytics platform for a fintech startup. Complex data visualized with clarity, speed, and elegance.',
+      detail: '<strong>What I did:</strong> Designed a modular dashboard with 15+ chart types and customizable widget layouts. Heavy emphasis on readability at a glance — color-coded thresholds, clear typographic hierarchy, and dark mode support.<br><br><strong>Tools:</strong> Figma, Canva &nbsp;·&nbsp; <strong>Duration:</strong> 5 weeks'
+    },
+    {
+      num: '006',
+      title: 'Editorial Website',
+      tags: ['Web Design', 'Editorial', 'Typography'],
+      desc: "A beautifully typographic digital magazine experience — custom CMS, reading modes, and adaptive layout engine.",
+      detail: "<strong>What I did:</strong> Art directed the publication's digital presence. Designed article templates, cover layouts, and a reading mode toggle. Typography is the hero — every size, weight, and spacing decision was deliberate.<br><br><strong>Tools:</strong> Figma, Adobe Photoshop &nbsp;·&nbsp; <strong>Duration:</strong> 4 weeks"
+    }
+  ];
+
+  /* ─────────────────────────────────────
+     MODAL OPEN / CLOSE LOGIC
+  ───────────────────────────────────── */
+  const overlay     = document.getElementById('modalOverlay');
+  const closeBtn    = document.getElementById('modalClose');
+  const modalNum    = document.getElementById('modalNum');
+  const modalTitle  = document.getElementById('modalTitle');
+  const modalTags   = document.getElementById('modalTags');
+  const modalDesc   = document.getElementById('modalDesc');
+  const modalDetail = document.getElementById('modalDetail');
+
+  function openModal(index) {
+    const p = projects[index];
+    modalNum.textContent   = p.num;
+    modalTitle.textContent = p.title;
+    modalDesc.textContent  = p.desc;
+    modalDetail.innerHTML  = p.detail;
+    modalTags.innerHTML    = p.tags
+      .map(t => `<span class="modal-tag">${t}</span>`)
+      .join('');
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  /* Clicking a project card opens its modal */
+  document.querySelectorAll('.project-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const idx = parseInt(card.dataset.project, 10);
+      openModal(idx);
+    });
+  });
+
+  /* Close via the ✕ button */
+  closeBtn.addEventListener('click', closeModal);
+
+  /* Close by clicking the dark backdrop */
+  overlay.addEventListener('click', e => {
+    if (e.target === overlay) closeModal();
+  });
+
+  /* Close with the Escape key */
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeModal();
+  });
+</script>
+</body>
+</html>
