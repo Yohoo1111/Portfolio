@@ -326,6 +326,10 @@
     footer { flex-direction: column; gap: 1.5rem; }
     .modal-body { padding: 2rem 1.6rem 2.2rem; }
   }
+  a{
+  text-decoration: none;
+  color: inherit;
+}
 </style>
 </head>
 <body>
@@ -349,7 +353,7 @@
   <div class="title">Renz<br>Capua</div>
   <div class="about-grid reveal">
     <div class="about-portrait">
-      <img src="picture.jpg" alt="Renz Capua">
+      <img src="picture.jfif" alt="Renz Capua">
     </div>
     <div class="about-text">
       <p>I'm a <strong>3rd-year college student in graphic design</strong> with a passion for creating work that balances aesthetics and purpose.</p>
@@ -422,74 +426,20 @@
   <div class="label">— Selected Work</div>
   <div class="title">Projects</div>
   <div class="projects-grid">
-
+    <a href="Project_page.html">
     <div class="project-card reveal" data-project="0">
       <div class="num">001</div>
       <div class="click-hint">↩ Click to view</div>
-      <div class="project-title">Brand Identity System</div>
-      <p class="project-desc">A comprehensive visual identity for a sustainable architecture firm — logotype, color system, typography, and brand guidelines.</p>
+      <div class="project-title">Mid Term Tasks</div>
+      <p class="project-desc">
+A collection of midterm analytics tasks involving data analysis, interpretation, and visualization to demonstrate analytical thinking and problem-solving skills.
+</p>
       <div class="project-footer">
         <div class="tags"><span class="tag">Branding</span><span class="tag">Identity</span></div>
         <span class="arrow">↗</span>
       </div>
     </div>
-
-    <div class="project-card reveal" data-project="1">
-      <div class="num">002</div>
-      <div class="click-hint">↩ Click to view</div>
-      <div class="project-title">E-Commerce Redesign</div>
-      <p class="project-desc">A full UX overhaul of a fashion retailer's digital storefront, increasing conversion by 34% through better hierarchy and flow.</p>
-      <div class="project-footer">
-        <div class="tags"><span class="tag">UX</span><span class="tag">E-Commerce</span></div>
-        <span class="arrow">↗</span>
-      </div>
-    </div>
-
-    <div class="project-card reveal" data-project="2">
-      <div class="num">003</div>
-      <div class="click-hint">↩ Click to view</div>
-      <div class="project-title">Design System</div>
-      <p class="project-desc">Built a scalable component library for a SaaS product team — 200+ components, thorough documentation, Figma tokens.</p>
-      <div class="project-footer">
-        <div class="tags"><span class="tag">Systems</span><span class="tag">Figma</span></div>
-        <span class="arrow">↗</span>
-      </div>
-    </div>
-
-    <div class="project-card reveal" data-project="3">
-      <div class="num">004</div>
-      <div class="click-hint">↩ Click to view</div>
-      <div class="project-title">Motion Campaign</div>
-      <p class="project-desc">An animated marketing campaign for a product launch — title sequences, social cutdowns, and interactive web banners.</p>
-      <div class="project-footer">
-        <div class="tags"><span class="tag">Motion</span><span class="tag">Campaign</span></div>
-        <span class="arrow">↗</span>
-      </div>
-    </div>
-
-    <div class="project-card reveal" data-project="4">
-      <div class="num">005</div>
-      <div class="click-hint">↩ Click to view</div>
-      <div class="project-title">Data Dashboard</div>
-      <p class="project-desc">A real-time analytics platform for a fintech startup. Complex data visualized with clarity, speed, and elegance.</p>
-      <div class="project-footer">
-        <div class="tags"><span class="tag">Data Viz</span><span class="tag">UI</span></div>
-        <span class="arrow">↗</span>
-      </div>
-    </div>
-
-    <div class="project-card reveal" data-project="5">
-      <div class="num">006</div>
-      <div class="click-hint">↩ Click to view</div>
-      <div class="project-title">Editorial Website</div>
-      <p class="project-desc">A beautifully typographic digital magazine experience — custom CMS, reading modes, and adaptive layout engine.</p>
-      <div class="project-footer">
-        <div class="tags"><span class="tag">Web</span><span class="tag">Editorial</span></div>
-        <span class="arrow">↗</span>
-      </div>
-    </div>
-
-  </div>
+    </a>
 </section>
 
 <!-- ── Footer ── -->
@@ -576,50 +526,7 @@
      Edit this array to update your popup
      content for each project card.
   ───────────────────────────────────── */
-  const projects = [
-    {
-      num: '001',
-      title: 'Brand Identity System',
-      tags: ['Branding', 'Identity', 'Logo Design'],
-      desc: 'A comprehensive visual identity for a sustainable architecture firm — logotype, color system, typography, and brand guidelines.',
-      detail: '<strong>What I did:</strong> Developed the full identity from scratch — wordmark, icon, color palette, and a 40-page brand guideline document. The design language draws from brutalist architecture and biophilic principles, balancing rigidity with warmth.<br><br><strong>Tools:</strong> Adobe Illustrator, Figma &nbsp;·&nbsp; <strong>Duration:</strong> 3 weeks'
-    },
-    {
-      num: '002',
-      title: 'E-Commerce Redesign',
-      tags: ['UX Design', 'E-Commerce', 'Prototyping'],
-      desc: "A full UX overhaul of a fashion retailer's digital storefront, increasing conversion by 34% through better hierarchy and flow.",
-      detail: '<strong>What I did:</strong> Audited the existing site, mapped user journeys, and rebuilt the information architecture. Redesigned the product listing, cart, and checkout flows with a mobile-first approach.<br><br><strong>Tools:</strong> Figma, Adobe XD &nbsp;·&nbsp; <strong>Duration:</strong> 4 weeks'
-    },
-    {
-      num: '003',
-      title: 'Design System',
-      tags: ['Systems Design', 'Figma', 'Documentation'],
-      desc: 'Built a scalable component library for a SaaS product team — 200+ components, thorough documentation, Figma tokens.',
-      detail: '<strong>What I did:</strong> Created a single source of truth for a growing product team. Defined tokens for color, spacing, and typography. Documented usage guidelines and accessibility standards for every component.<br><br><strong>Tools:</strong> Figma, Notion &nbsp;·&nbsp; <strong>Duration:</strong> 6 weeks'
-    },
-    {
-      num: '004',
-      title: 'Motion Campaign',
-      tags: ['Motion Design', 'Social Media', 'Campaign'],
-      desc: 'An animated marketing campaign for a product launch — title sequences, social cutdowns, and interactive web banners.',
-      detail: '<strong>What I did:</strong> Conceptualized the motion language and produced assets for launch day — hero video, 6 social formats, and HTML5 banners. The campaign reached 200K impressions in its first week.<br><br><strong>Tools:</strong> After Effects, Adobe Premiere &nbsp;·&nbsp; <strong>Duration:</strong> 2 weeks'
-    },
-    {
-      num: '005',
-      title: 'Data Dashboard',
-      tags: ['Data Visualization', 'UI Design', 'Fintech'],
-      desc: 'A real-time analytics platform for a fintech startup. Complex data visualized with clarity, speed, and elegance.',
-      detail: '<strong>What I did:</strong> Designed a modular dashboard with 15+ chart types and customizable widget layouts. Heavy emphasis on readability at a glance — color-coded thresholds, clear typographic hierarchy, and dark mode support.<br><br><strong>Tools:</strong> Figma, Canva &nbsp;·&nbsp; <strong>Duration:</strong> 5 weeks'
-    },
-    {
-      num: '006',
-      title: 'Editorial Website',
-      tags: ['Web Design', 'Editorial', 'Typography'],
-      desc: "A beautifully typographic digital magazine experience — custom CMS, reading modes, and adaptive layout engine.",
-      detail: "<strong>What I did:</strong> Art directed the publication's digital presence. Designed article templates, cover layouts, and a reading mode toggle. Typography is the hero — every size, weight, and spacing decision was deliberate.<br><br><strong>Tools:</strong> Figma, Adobe Photoshop &nbsp;·&nbsp; <strong>Duration:</strong> 4 weeks"
-    }
-  ];
+
 
   /* ─────────────────────────────────────
      MODAL OPEN / CLOSE LOGIC
