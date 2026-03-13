@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Midterm Tasks — Renz Capua</title>
+<link href="[fonts.googleapis.com](https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@600&family=Space+Grotesk:wght@300;400&display=swap)" rel="stylesheet">
+<style>
+  :root {
+    --bg:   #fdf6e3;
+    --ink:  #1a1208;
+    --acc:  #c0392b;
+    --acc2: #8e44ad;
+    --sub:  #5a4a3a;
+    --dim:  rgba(90,74,58,0.18);
+    --mono: 'Share Tech Mono', monospace;
+    --head: 'Rajdhani', sans-serif;
+    --body: 'Space Grotesk', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Paper texture overlay */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    pointer-events: none; z-index: 9000;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='[w3.org](http://www.w3.org/2000/svg)' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    opacity: 0.5;
+  }
+
+  /* ── Custom cursor ── */
+  .cursor, .cursor-ring {
+    position: fixed; top: 0; left: 0;
+    pointer-events: none; border-radius: 50%;
+    transition: width .2s, height .2s, opacity .2s;
+  }
+  .cursor { width: 7px; height: 7px; background: var(--acc); z-index: 9999; }
+  .cursor-ring {
+    width: 28px; height: 28px;
+    border: 1px solid var(--acc);
+    z-index: 9998; opacity: 0.45;
+  }
+  body:has(a:hover) .cursor-ring,
+  body:has(button:hover) .cursor-ring,
+  body:has(.task-card:hover) .cursor-ring {
+    width: 54px; height: 54px; opacity: 0.75;
+  }
+
+  /* ── Navigation ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+    padding: 1.2rem 3.5rem;
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(253,246,227,0.92);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--dim);
+  }
+  .nav-logo {
+    font-family: var(--mono); font-size: 0.85rem;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--acc); text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 2.2rem; list-style: none; }
+  .nav-links a {
+    font-family: var(--mono); font-size: 0.64rem;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--sub); text-decoration: none;
+    transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--acc); }
+
+  /* ── Back button ── */
+  .back-link {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-family: var(--mono); font-size: 0.65rem;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--sub); text-decoration: none;
+    transition: color .2s; margin-bottom: 2rem;
+  }
+  .back-link:hover { color: var(--acc); }
+  .back-link span { transition: transform .2s; }
+  .back-link:hover span { transform: translateX(-4px); }
+
+  /* ── Section base ── */
+  section { padding: 7rem 3.5rem; position: relative; z-index: 1; }
+  .label {
+    font-family: var(--mono); font-size: 0.6rem;
+    letter-spacing: 0.26em; text-transform: uppercase;
+    color: var(--acc); margin-bottom: 0.8rem;
+  }
+  .title {
+    font-family: var(--head); font-weight: 600;
+    font-size: clamp(2.4rem, 5vw, 4.5rem);
+    line-height: 0.95; letter-spacing: 0.02em;
+    margin-bottom: 1.5rem;
+  }
+  .project-intro {
+    font-size: 1rem; font-weight: 300;
+    color: var(--sub); max-width: 680px;
+    line-height: 1.85; margin-bottom: 3rem;
+  }
+
+  /* ── Project meta info ── */
+  .project-meta {
+    display: flex; flex-wrap: wrap; gap: 2.5rem;
+    padding: 2rem 0; border-top: 1px solid var(--dim);
+    border-bottom: 1px solid var(--dim); margin-bottom: 4rem;
+  }
+  .meta-item { }
+  .meta-label {
+    font-family: var(--mono); font-size: 0.55rem;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--sub); margin-bottom: 0.4rem;
+  }
+  .meta-value {
+    font-family: var(--head); font-weight: 600;
+    font-size: 1.1rem; color: var(--ink);
+  }
+  .meta-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.3rem; }
+  .meta-tag {
+    font-family: var(--mono); font-size: 0.55rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 0.18rem 0.5rem; border: 1px solid var(--acc); color: var(--acc);
+  }
+
+  /* ── Tasks Grid ── */
+  .tasks-section { margin-bottom: 5rem; }
+  .section-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 2rem; padding-bottom: 1rem;
+    border-bottom: 1px solid var(--dim);
+  }
+  .section-title {
+    font-family: var(--head); font-weight: 600;
+    font-size: 1.6rem; color: var(--ink);
+  }
+  .task-count {
+    font-family: var(--mono); font-size: 0.6rem;
+    letter-spacing: 0.12em; color: var(--sub);
+  }
+
+  .tasks-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .task-card {
+    background: var(--bg);
+    border: 1px solid var(--dim);
+    padding: 1.8rem;
+    position: relative; overflow: hidden;
+    cursor: none; transition: all .3s;
+  }
+  .task-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, var(--acc2), var(--acc));
+    transform: scaleX(0); transform-origin: left; transition: transform .4s;
+  }
+  .task-card:hover { background: rgba(192,57,43,0.04); transform: translateY(-3px); }
+  .task-card:hover::before { transform: scaleX(1); }
+
+  .task-num {
+    font-family: var(--mono); font-size: 0.55rem;
+    letter-spacing: 0.14em; color: var(--acc2);
+    margin-bottom: 1rem;
+  }
+  .task-title {
+    font-family: var(--head); font-weight: 600;
+    font-size: 1.25rem; line-height: 1.15;
+    color: var(--ink); margin-bottom: 0.8rem;
+    transition: color .3s;
+  }
+  .task-card:hover .task-title { color: var(--acc); }
+  .task-desc {
+    font-size: 0.88rem; font-weight: 300;
+    color: var(--sub); line-height: 1.7; margin-bottom: 1.5rem;
+  }
+  .task-footer {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-top: 1rem; border-top: 1px solid var(--dim);
+  }
+  .task-tags { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+  .task-tag {
+    font-family: var(--mono); font-size: 0.5rem;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 0.12rem 0.4rem; border: 1px solid var(--dim); color: var(--sub);
+  }
+  .task-date {
+    font-family: var(--mono); font-size: 0.55rem;
+    letter-spacing: 0.1em; color: var(--sub);
+  }
+
+  /* ── Task Image Preview ── */
+  .task-image {
+    width: 100%; aspect-ratio: 16/10;
+    background: #ede8d8; border: 1px solid var(--dim);
+    margin-bottom: 1.2rem; overflow: hidden;
+  }
+  .task-image img {
+    width: 100%; height: 100%;
+    object-fit: cover; display: block;
+    transition: transform .4s;
+  }
+  .task-card:hover .task-image img { transform: scale(1.03); }
+
+  /* ── Footer ── */
+  footer {
+    padding: 3rem 3.5rem; border-top: 1px solid var(--dim);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-name {
+    font-family: var(--mono); font-size: 0.85rem;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--acc);
+  }
+  .footer-links { display: flex; gap: 1.8rem; list-style: none; margin-top: 0.4rem; }
+  .footer-links a {
+    font-family: var(--mono); font-size: 0.6rem;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--sub); text-decoration: none; transition: color .2s;
+  }
+  .footer-links a:hover { color: var(--acc); }
+
+  /* ── Scroll reveal animation ── */
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* ── Task Detail Modal ── */
+  .modal-overlay {
+    position: fixed; inset: 0; z-index: 800;
+    background: rgba(26,18,8,0.72);
+    backdrop-filter: blur(6px);
+    display: flex; align-items: center; justify-content: center;
+    padding: 2rem;
+    opacity: 0; pointer-events: none;
+    transition: opacity .35s ease;
+  }
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+  .modal {
+    background: var(--bg); border: 1px solid var(--dim);
+    max-width: 780px; width: 100%;
+    position: relative; overflow: hidden;
+    transform: translateY(28px) scale(0.97);
+    transition: transform .38s cubic-bezier(.22,1,.36,1);
+    max-height: 90vh; overflow-y: auto;
+  }
+  .modal-overlay.open .modal { transform: translateY(0) scale(1); }
+  .modal::before {
+    content: ''; display: block; height: 3px;
+    background: linear-gradient(90deg, var(--acc2), var(--acc));
+  }
+  .modal-body { padding: 2.8rem 3rem 3rem; }
+  .modal-num {
+    font-family: var(--mono); font-size: 0.58rem;
+    letter-spacing: 0.16em; color: var(--sub);
+    opacity: .55; margin-bottom: 0.6rem;
+  }
+  .modal-title {
+    font-family: var(--head); font-weight: 600;
+    font-size: clamp(1.9rem, 4vw, 2.5rem); line-height: 0.97;
+    color: var(--ink); margin-bottom: 1.4rem;
+  }
+  .modal-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 2rem; }
+  .modal-tag {
+    font-family: var(--mono); font-size: 0.57rem;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 0.2rem 0.6rem; border: 1px solid var(--acc); color: var(--acc);
+  }
+  .modal-image {
+    width: 100%; aspect-ratio: 16/9;
+    background: #ede8d8; border: 1px solid var(--dim);
+    margin-bottom: 2rem; overflow: hidden;
+  }
+  .modal-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .modal-desc {
+    font-size: 0.95rem; font-weight: 300;
+    color: var(--sub); line-height: 1.85; margin-bottom: 1.5rem;
+  }
+  .modal-detail {
+    font-size: 0.88rem; font-weight: 300;
+    color: var(--sub); line-height: 1.8;
+    padding-top: 1.5rem; border-top: 1px solid var(--dim);
+  }
+  .modal-detail strong { color: var(--ink); font-weight: 400; }
+  .modal-close {
+    position: absolute; top: 1.4rem; right: 1.4rem;
+    font-family: var(--mono); font-size: 0.68rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--sub); background: none;
+    border: 1px solid var(--dim);
+    padding: 0.3rem 0.7rem; cursor: none;
+    transition: border-color .2s, color .2s;
+  }
+  .modal-close:hover { border-color: var(--acc); color: var(--acc); }
+
+  /* ── Responsive ── */
+  @media (max-width: 860px) {
+    nav, section, footer { padding-left: 1.4rem; padding-right: 1.4rem; }
+    .tasks-grid { grid-template-columns: 1fr; }
+    .project-meta { gap: 1.5rem; }
+    footer { flex-direction: column; gap: 1.5rem; }
+    .modal-body { padding: 2rem 1.6rem 2.2rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cur"></div>
+<div class="cursor-ring" id="ring"></div>
+
+<!-- ── Navigation ── -->
+<nav>
+  <a href="index.html" class="nav-logo">Renz Capua</a>
+  <ul class="nav-links">
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#skills">Skills</a></li>
+    <li><a href="index.html#projects">Projects</a></li>
+  </ul>
+</nav>
+
+<!-- ── Project Detail Section ── -->
+<section id="project-detail" style="padding-top:9rem">
+  <a href="index.html#projects" class="back-link"><span>←</span> Back to Projects</a>
+  
+  <div class="label">— Project 001</div>
+  <div class="title">Midterm<br>Tasks</div>
+  <p class="project-intro">===</p>
+  
+  <div class="project-meta reveal">
+    <div class="meta-item">
+      <div class="meta-label">Duration</div>
+      <div class="meta-value">4 Weeks</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">Period</div>
+      <div class="meta-value">October 2024</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">Total Tasks</div>
+      <div class="meta-value">6 Tasks</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">Skills Used</div>
+      <div class="meta-tags">
+        <span class="meta-tag">Photoshop</span>
+        <span class="meta-tag">Illustrator</span>
+        <span class="meta-tag">Figma</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tasks Section -->
+  <div class="tasks-section">
+    <div class="section-header">
+      <h2 class="section-title">All Tasks</h2>
+      <span class="task-count">6 items</span>
+    </div>
+    
+    <div class="tasks-grid">
+      
+      <!-- Task 1 -->
+      <div class="task-card reveal" data-task="0">
+        <div class="task-image">
+          <img src="yey.png" alt="Data Preparation and Cleaning">
+        </div>
+        <div class="task-num">Task 01</div>
+        <div class="task-title">Data Preparation and Cleaning</div>
+        <p class="task-desc">Data preparation and data cleaning involve organizing datasets and removing errors, duplicates, or missing values to ensure accurate and reliable analysis.</p>
+        <div class="task-footer">
+          <div class="task-tags">
+            <span class="task-tag">Data Preperation</span>
+            <span class="task-tag">Data Cleaning</span>
+          </div>
+          <div class="task-date">Feb 13, 2026</div>
+        </div>
+      </div>
+
+      <!-- Task 2 -->
+      <div class="task-card reveal" data-task="1">
+        <div class="task-image">
+          <img src="bike.png" alt="Photo Manipulation">
+        </div>
+        <div class="task-num">Task 02</div>
+        <div class="task-title">Pivot Tables and Charts</div>
+        <p class="task-desc">Organized and analyzed data using pivot tables and charts to highlight important trends and insights.</p>
+        <div class="task-footer">
+          <div class="task-tags">
+            <span class="task-tag">Pivot Tables</span>
+            <span class="task-tag">Charts</span>
+          </div>
+          <div class="task-date">Feb 20, 2026</div>
+        </div>
+      </div>
+
+      <!-- Task 3 -->
+      <div class="task-card reveal" data-task="2">
+        <div class="task-image">
+          <img src="cola.png" alt="Logo Design">
+        </div>
+        <div class="task-num">Practice 03</div>
+        <div class="task-title">Creating Dashboards in Excel</div>
+        <p class="task-desc">Dashboards in Excel visualize and summarize data for quick insights and decisions.</p>
+        <div class="task-footer">
+          <div class="task-tags">
+            <span class="task-tag">Dashboards</span>
+            
+          </div>
+          <div class="task-date">Feb 27, 2026</div>
+        </div>
+      </div>
+
+      <!-- Task 4 -->
+      <div class="task-card reveal" data-task="3">
+        <div class="task-image">
+          <img src="WEW.png" alt="Magazine Layout">
+        </div>
+        <div class="task-num">Task 03</div>
+        <div class="task-title">Normalization using Power Query</div>
+        <p class="task-desc">Normalization using Power Query refers to the process of structuring and cleaning raw data in Excel</p>
+        <div class="task-footer">
+          <div class="task-tags">
+            <span class="task-tag">Normalization</span>
+            <span class="task-tag">Power Query</span>
+          </div>
+          <div class="task-date">Mar 06, 2026</div>
+        </div>
+      </div>
+
+      <!-- Following Tasks to input  -->
+      
+
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ── -->
+<footer>
+  <div>
+    <div class="footer-name">Contact</div>
+    <ul class="footer-links">
+      <li><a href="mailto:renzcapua123@gmail.com">renzcapua123@gmail.com</a></li>
+      <li><a href="[facebook.com](https://www.facebook.com/renz.capua.5)" target="_blank">Facebook</a></li>
+      <li><a href="[instagram.com](https://www.instagram.com/rnz.zzzzzzzz/)" target="_blank">Instagram</a></li>
+      <li><a>63+ 9942383722</a></li>
+    </ul>
+  </div>
+</footer>
+
+<!-- ── Task Detail Modal ── -->
+<div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true">
+  <div class="modal" id="modal">
+    <button class="modal-close" id="modalClose" aria-label="Close modal">✕ Close</button>
+    <div class="modal-body">
+      <div class="modal-num" id="modalNum"></div>
+      <div class="modal-title" id="modalTitle"></div>
+      <div class="modal-tags" id="modalTags"></div>
+      <div class="modal-image" id="modalImage"></div>
+      <p class="modal-desc" id="modalDesc"></p>
+      <div class="modal-detail" id="modalDetail"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  /* ─────────────────────────────────────
+     CUSTOM CURSOR
+  ───────────────────────────────────── */
+  const cur  = document.getElementById('cur');
+  const ring = document.getElementById('ring');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX;
+    my = e.clientY;
+  });
+
+  (function tick() {
+    cur.style.transform  = `translate(${mx - 3.5}px, ${my - 3.5}px)`;
+    rx += (mx - rx) * .1;
+    ry += (my - ry) * .1;
+    ring.style.transform = `translate(${rx - 14}px, ${ry - 14}px)`;
+    requestAnimationFrame(tick);
+  })();
+
+  /* ─────────────────────────────────────
+     SCROLL REVEAL
+  ───────────────────────────────────── */
+  const revealObs = new IntersectionObserver(entries =>
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+      }
+    }), { threshold: .1 }
+  );
+  document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+  /* ─────────────────────────────────────
+     TASK DATA
+     Edit this array to update your task
+     details in the modal popup.
+  ───────────────────────────────────── */
+  const tasks = [
+    {
+      num: 'Task 01',
+      title: 'Data Preparation and Cleaning',
+      tags: ['Midterm Task 1 Demo File for Data Preparation and Cleaning'],
+      image: 'yey.png',
+      desc: 'Created a set of midterm analytics tasks focused on data preparation, data cleaning, and basic data analysis to improve data quality and generate meaningful insights.',
+      detail: '<strong>Objective:</strong> Explore how properly prepared and cleaned datasets improve the accuracy and reliability of data analysis.<br><br><strong>Process:</strong> Started by examining raw datasets and identifying missing values, duplicates, and inconsistencies. Applied data cleaning techniques such as removing errors, organizing variables, and preparing the dataset for analysis and visualization.<br><br><strong>Tools:</strong> Microsoft Excel · Google Sheets <strong>Time Spent:</strong> 6 hours'
+    },
+    {
+      num: 'Task 02',
+      title: 'Pivot Tables and Charts',
+      tags: ['Midterm Task 2. Pivot Tables and Charts in Excel'],
+      image: 'bike.png',
+      desc: 'Created pivot tables and charts to summarize and visualize datasets, highlighting key patterns, trends, and insights for effective analysis.',
+      detail: '<strong>Objective:</strong> Learn how to use pivot tables and charts to organize, analyze, and interpret data quickly and efficiently.<br><br><strong>Process:</strong> Started by selecting relevant datasets and identifying key variables. Built pivot tables to aggregate data, then created charts to visualize trends and comparisons. Focused on presenting insights clearly and accurately.<br><br><strong>Tools:</strong> Microsoft Excel · Google Sheets <strong>Time Spent:</strong> 6 hours'
+    },
+    {
+      num: 'Practice 03',
+      title: 'Creating Dashboards in Excel',
+      tags: ['Practice Task 3_Demo Creating Dashboards in Excel'],
+      image: 'cola.png',
+      desc: 'Designed interactive dashboards by creating pivot tables and charts to summarize and visualize datasets, highlighting key patterns, trends, and insights for effective analysis.',
+      detail: '<strong>Objective:</strong> Learn to organize, analyze, and interpret data efficiently using pivot tables, charts, and dashboards.<br><br><strong>Process:</strong> Selected relevant datasets and identified key variables. Built pivot tables to aggregate data and created charts to visualize trends and comparisons. Arranged components into a dashboard for clear and actionable insights.<br><br><strong>Tools:</strong> Microsoft Excel · Google Sheets <strong>Time Spent:</strong> 6 hours'
+    },
+    {
+      num: 'Task 03',
+      title: 'Normalization using Power Query',
+      tags: ['Midterm Task 3 Normalization using Power Query'],
+      image: 'WEW.png',
+      desc: 'Normalized raw datasets using Power Query by cleaning, restructuring, and organizing data for accurate analysis.',
+      detail: '<strong>Objective:</strong> Learn to standardize, clean, and structure data efficiently to prepare it for analysis and reporting.<br><br><strong>Process:</strong> Imported raw data, identified inconsistencies and redundant fields, split or transformed columns as needed, and applied Power Query steps to create a clean, structured dataset ready for pivot tables and dashboards.<br><br><strong>Tools:</strong> Microsoft Excel · Google Sheets <strong>Time Spent:</strong> 6 hours'
+    },
+    
+    
+  ];
+
+  /* ─────────────────────────────────────
+     MODAL OPEN / CLOSE LOGIC
+  ───────────────────────────────────── */
+  const overlay     = document.getElementById('modalOverlay');
+  const closeBtn    = document.getElementById('modalClose');
+  const modalNum    = document.getElementById('modalNum');
+  const modalTitle  = document.getElementById('modalTitle');
+  const modalTags   = document.getElementById('modalTags');
+  const modalImage  = document.getElementById('modalImage');
+  const modalDesc   = document.getElementById('modalDesc');
+  const modalDetail = document.getElementById('modalDetail');
+
+  function openModal(index) {
+    const t = tasks[index];
+    modalNum.textContent   = t.num;
+    modalTitle.textContent = t.title;
+    modalDesc.textContent  = t.desc;
+    modalDetail.innerHTML  = t.detail;
+    modalImage.innerHTML   = `<img src="${t.image}" alt="${t.title}">`;
+    modalTags.innerHTML    = t.tags
+      .map(tag => `<span class="modal-tag">${tag}</span>`)
+      .join('');
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.querySelectorAll('.task-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const idx = parseInt(card.dataset.task, 10);
+      openModal(idx);
+    });
+  });
+
+  closeBtn.addEventListener('click', closeModal);
+  overlay.addEventListener('click', e => {
+    if (e.target === overlay) closeModal();
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeModal();
+  });
+</script>
+</body>
+</html>
