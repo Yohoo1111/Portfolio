@@ -332,7 +332,7 @@
 <section id="project-detail" style="padding-top:9rem">
   <a href="index.html#projects" class="back-link"><span>←</span> Back to Projects</a>
   
-  <div class="label">— Project 001</div>
+  <div class="label">— Project 002</div>
   <div class="title">Midterm<br>Tasks</div>
   <p class="project-intro">===</p>
   
@@ -472,9 +472,7 @@
 </div>
 
 <script>
-  /* ─────────────────────────────────────
-     CUSTOM CURSOR
-  ───────────────────────────────────── */
+
   const cur  = document.getElementById('cur');
   const ring = document.getElementById('ring');
   let mx = 0, my = 0, rx = 0, ry = 0;
@@ -492,9 +490,6 @@
     requestAnimationFrame(tick);
   })();
 
-  /* ─────────────────────────────────────
-     SCROLL REVEAL
-  ───────────────────────────────────── */
   const revealObs = new IntersectionObserver(entries =>
     entries.forEach((e, i) => {
       if (e.isIntersecting) {
@@ -504,11 +499,6 @@
   );
   document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
 
-  /* ─────────────────────────────────────
-     TASK DATA
-     Edit this array to update your task
-     details in the modal popup.
-  ───────────────────────────────────── */
   const tasks = [
     {
       num: 'Task 01',
@@ -546,9 +536,6 @@
     
   ];
 
-  /* ─────────────────────────────────────
-     MODAL OPEN / CLOSE LOGIC
-  ───────────────────────────────────── */
   const overlay     = document.getElementById('modalOverlay');
   const closeBtn    = document.getElementById('modalClose');
   const modalNum    = document.getElementById('modalNum');
